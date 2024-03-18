@@ -81,8 +81,6 @@ main{
     max-width: 1000px;
 }
 .box{
-        width: calc(100% / 10);
-        height: calc(100% / 10);
         border: 1px solid black;
         font-size: 20px;
         display: flex;

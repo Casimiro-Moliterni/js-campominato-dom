@@ -6,22 +6,25 @@
 
 const mygrid = document.querySelector('.grid');
 const GenBtn = document.querySelector('.btn');
-GenBtn.addEventListener('click', generalGame);
+GenBtn.addEventListener('click', generateGame);
 
 // funzione generale 
-function generalGame(){
+function generateGame(){
      //    svuotare griglia 
      mygrid.innerHTML='';
-
      const level = document.querySelector('#level').value;
      let numberofBox ;
      let numberoFCellsRow;
-     let numberRandom = [];
-     const bombs = generateRandomArray(16,1,16);
-     numberRandom.push(bombs);
-     console.log(numberRandom)
+    //  bombe generate 
+     const numberOfBombs = 16;
+//   ciclo x elencare ogni singola bomba 
+    // for( let i = 0 ; i < numberRandom.length; i++){
+    //     const thisBombs= numberRandom[i];
+    //     console.log(thisBombs)
+    // }
+      
      if(level === 'easy'){
-        numberofBox = 100;
+        numberofBox = 100 ;
         numberoFCellsRow = 10 ;
      } else if( level === 'hard'){
         numberofBox = 81 ;
@@ -30,12 +33,14 @@ function generalGame(){
         numberofBox = 49;
         numberoFCellsRow = 7 ;
      }
+    //  console.log(numberofBox)
+    const bombs = generateRandomArray(numberOfBombs,1,numberofBox);
+     console.log(bombs);
 
-     console.log(numberofBox)
     for (let i = 1; i <= numberofBox; i++) {
         const thisElement = i ;
-        
-        const box = generateGridbox(thisElement,numberoFCellsRow);
+        const box = generateGridbox(thisElement,numberoFCellsRow,bombs);
+    
         mygrid.append(box);    
     };
 }
@@ -44,7 +49,7 @@ function generalGame(){
 // Funzione che genera un quadrato
 // number -> numero che rappresenta un numero
 // return: elemento del dom che rappresenta un quadrato
-function generateGridbox(number,numberoFCells) {
+function generateGridbox(number,numberoFCells,bombs) {
     const myDiv = document.createElement('div');
     myDiv.classList.add('box');
     myDiv.innerHTML = `<span>${number}</span>`;
@@ -54,6 +59,10 @@ function generateGridbox(number,numberoFCells) {
     myDiv.addEventListener('click', function () {
         this.classList.toggle('color-skyblue');
         console.log('hai cliccato la cella numero :', number);
+
+        if(bombs.includes(number)){
+            alert('hai perso');
+        }
     });
     return myDiv;
 };
@@ -83,3 +92,15 @@ function generateRandomArray(arrayLength, numMin, numMax) {
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
   }
+
+//   funzione per creare bombe 
+function generateBombs (bombs,numberOfCells){
+    
+    const bombsList =[];
+
+    for(let i = 0 ; i < bombs; i++){
+          bombsList.push(generateRandomArray(bombsList,1,numberOfCells));
+    };
+    return bombsList;
+};
+
